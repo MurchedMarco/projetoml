@@ -1,0 +1,101 @@
+import sys
+import logging
+
+def error_message_detail(error, error_details:sys):
+    _,_,exc_tb = error_details.exc_info()
+    file_name = exc_tb.tb_frame.f_code.co_filename
+    error_message = 'Ocorreu um erro no seu script Python.\nO nome do erro é [{0}], na linha número [{1}] com a mensagem de erro[{2}]'.format(file_name, exc_tb.tb_lineno,str(error))
+
+    return error_message
+   
+    
+
+class CustomExcepition(Exception):
+    def __init__(self,error_message, error_details:sys):
+        super().__init__(error_message)
+        self.error_message = error_message_detail(error_message, error_details = error_details)
+        
+
+def __str__(self):
+    return self.error_message
+
+if __name__ == '__main__':
+    
+
+    try:
+        a = 1/0
+    except Exception as e:
+        logging.info('Não pode dividir por ZERO.')
+        raise CustomExcepition (e, sys)
+    
+
+    ----------------------
+
+    import logging
+import os
+from datetime import datetime
+
+LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
+logs_path = os.path.join(os.getcwd(), 'logs', LOG_FILE)
+os.makedirs(logs_path, exist_ok=True)
+
+LOG_FILE_PATH = os.path.join(logs_path, LOG_FILE)
+
+logging.basicConfig(
+    filename = LOG_FILE_PATH,
+    format = '[ %(asctime)s ] %(lineno)d %(name)s - %(levelname)s - %(message)s',
+    level = logging.INFO,   
+)
+
+if __name__ == '__main__':
+    logging.info('O log começou.')
+
+    
+
+    ------------------------
+
+
+import logging
+import os
+from datetime import datetime
+import exceptions
+
+# Configuração do logging
+LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
+logs_path = os.path.join(os.getcwd(), 'logs')
+
+if not os.path.exists(logs_path):
+    os.makedirs(logs_path)
+
+LOG_FILE_PATH = os.path.abspath(os.path.join(logs_path, LOG_FILE))
+
+logging.basicConfig(
+    filename=LOG_FILE_PATH,
+    format='[ %(asctime)s ] %(lineno)d %(name)s - %(levelname)s - %(message)s',
+    level=logging.DEBUG,
+)
+
+if os.path.exists(LOG_FILE_PATH):
+    print(f"Arquivo de log criado: {LOG_FILE_PATH}")
+else:
+    print("Não foi possível criar o arquivo de log.")
+
+
+# Chama a função que você deseja registrar no log
+try:
+    a = 1/0
+except Exception as e:
+    logging.error('Não pode dividir por ZERO.')
+    raise exceptions.CustomExcepition(str(e))
+
+try:
+    logging.basicConfig(
+        filename=LOG_FILE_PATH,
+        format='[ %(asctime)s ] %(lineno)d %(name)s - %(levelname)s - %(message)s',
+        level=logging.DEBUG,
+    )
+except Exception as e:
+    print(f"Erro ao configurar o logging: {e}")
+
+print(f"Caminho do arquivo de log: {LOG_FILE_PATH}")
+
