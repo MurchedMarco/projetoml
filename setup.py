@@ -1,26 +1,27 @@
-from setuptools import find_packages, setup
+from setuptools import find_packages,setup
 from typing import List
 
-HIPHEN_E_DOT = '-e .'
-def get_requirements(file_path:str) -> List[str]:
+HIFEN_E_PONTO='-e .'
+def obter_requisitos(caminho_arquivo:str)->List[str]:
     '''
-    Essa função retornará a lista requirements.txt
+    Essa função retorna a lista de requesitos
     '''
-    requirements = []
-    with open(file_path) as file_obj:
-        requirements = file_obj.readlines()
-        requirements = [req.replace('\n' , '')for req in requirements]
+    requerimentos=[]
+    with open(caminho_arquivo) as arq_obj:
+        requerimentos=arq_obj.readlines()
+        requerimentos=[req.replace("\n","") for req in requerimentos]
 
-        if HIPHEN_E_DOT in requirements:
-            requirements.remove(HIPHEN_E_DOT)
-
-    return requirements
+        if HIFEN_E_PONTO in requerimentos:
+            requerimentos.remove(HIFEN_E_PONTO)
+    
+    return requerimentos
 
 setup(
-name = 'projetoml',
-version = '0.0.1',
-author = 'MurchedMarco',
-author_email = 'euocram@gmail.com',
-packages = find_packages(),
-install_requires = get_requirements('requirements.txt'),
+name='mlproject',
+version='0.0.1',
+author='MurchedMarco',
+author_email='euocram@gmail.com',
+packages=find_packages(),
+install_requires=obter_requisitos('requirements.txt')
+
 )
